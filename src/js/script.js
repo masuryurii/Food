@@ -256,13 +256,18 @@ window.addEventListener('DOMContentLoaded', () => {
 
             const request = new XMLHttpRequest();
             request.open('POST', 'server.php');
-            // request.setRequestHeader('Content-type', 'multipart/form-data');
+            request.setRequestHeader('Content-type', 'application/json');
 
-            //подготовка данных в формате form-data
-            //Объект form-data
             const formData = new FormData(form);
 
-            request.send(formData);
+            //подготовка данных в формате json
+            const object = {};
+            formData.forEach(function (value, key) {
+                object[key] = value;
+            });
+            const json = JSON.stringify(object);
+
+            request.send(json);
 
             request.addEventListener('load', () => {
                 if (request.status === 200) {
